@@ -4,20 +4,36 @@ import argparse
 import imutils
 import time
 import cv2
+import os
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--prototxt", required=True,
-	help="path to Caffe 'deploy' prototxt file")
-ap.add_argument("-m", "--model", required=True,
-	help="path to Caffe pre-trained model")
+ap.add_argument("-p", "--prototxt", help="path to Caffe 'deploy' prototxt file")
+ap.add_argument("-m", "--model", help="path to Caffe pre-trained model")
 ap.add_argument("-c", "--confidence", type=float, default=0.5,
 	help="minimum probability to filter weak detections")
 args = vars(ap.parse_args())
 
+if args["prototxt"] is None or not os.path.isfile(args["prototxt"]):
+	protos = [f for f in os.listdir() if "prototxt" in f]
+	if len(protos) == 1:
+		args["prototxt"] = protos[0]
+	else:
+		print("Prototxt file not found. Please specify using -p or --prototxt arg")
+		exit()
+
+if args["model"] is None or not os.path.isfile(args["model"]):
+	models = [f for f in os.listdir() if os.path.splitext(f)[1] == ".caffemodel"]
+	if len(models) == 1:
+		args["model"] = models[0]
+	else:
+		print("Pre-trained model not found. Please specify using -m or --model arg")
+		exit()
+
 # load our serialized model from disk
-print("[INFO] loading model...")
+print("[INFO] loading model from file \"{}\"".format(args["model"]))
 net = cv2.dnn.readNetFromCaffe(args["prototxt"], args["model"])
+print("[INFO] using 'deploy' from file \"{}\"".format(args["prototxt"]))
 
 # initialize the video stream and allow the cammera sensor to warmup
 print("[INFO] starting video stream...")

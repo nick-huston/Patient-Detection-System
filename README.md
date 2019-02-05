@@ -7,10 +7,11 @@ This is the repo for alerting nurses whether a patient gets our of their hospita
 
 You will need:
 
-OpenCV (https://opencv.org/)
-TensorFlow (https://www.tensorflow.org/install/)
-Keras (https://keras.io/#installation)
-Python3+ (https://www.python.org/downloads/)
+* [OpenCV](https://opencv.org/)    
+* [TensorFlow](https://www.tensorflow.org/install/)    
+* [Keras](https://keras.io/#installation)    
+* [Python3+](https://www.python.org/downloads/)    
+* [imutils](https://github.com/jrosebr1/imutils)
 
 ## Main Classifier
 The system will comprise of 3 classifiers to saftey reason to give us the lowest chance of a false detection. It will use facial recognition, human recognition, and action recognition.
